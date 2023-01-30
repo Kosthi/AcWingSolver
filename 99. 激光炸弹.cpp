@@ -1,4 +1,43 @@
-// ver1
+// ver0 optimize 1600ms
+#include <cstring>
+#include <cstdio>
+#include <iostream>
+#include <algorithm>
+
+using namespace std;
+
+const int N = 5010;
+int cnt, r, maxw, ans, m, n;
+int s[N][N];
+
+
+int main() {
+    scanf("%d %d", &cnt, &r);
+    r = min(r, 5001);
+    m = n = r;
+    while (cnt--) {
+        int x, y, w;
+        scanf("%d %d %d", &x, &y, &w);
+        s[x + 1][y + 1] += w;
+        m = max(m, x + 1), n = max(n, y + 1);
+    }
+    
+    for (int x = 1; x <= m; ++x) {
+        for (int y = 1; y <= n; ++y) {
+            s[x][y] += s[x][y - 1] + s[x - 1][y] - s[x - 1][y - 1];
+        }
+    }
+    
+    for (int x = r; x <= m; ++x) {
+        for (int y = r; y <= n; ++y) {
+            ans = s[x][y] - s[x - r][y] - s[x][y - r] + s[x - r][y - r];
+            maxw = max(maxw, ans);
+        }
+    }
+    printf("%d\n", maxw);
+}
+
+// ver1 4000ms
 #include <cstring>
 #include <cstdio>
 #include <iostream>
@@ -36,7 +75,7 @@ int main() {
     printf("%d\n", maxw);
 }
 
-// ver2
+// ver2 3500ms
 #include <cstring>
 #include <cstdio>
 #include <iostream>
