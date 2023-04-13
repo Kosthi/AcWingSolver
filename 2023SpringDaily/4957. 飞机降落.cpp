@@ -1,40 +1,37 @@
+#include <cstdio>
+#include <cstring>
 #include <iostream>
 
 using namespace std;
 
-const int N = 10010;
+const int N = 20;
 
-typedef long long LL;
+int T, n;
+int t[N], d[N], l[N], st[N];
+int flag;
 
-int n;
-int a[N], b[N];
-int maxx = INT32_MAX;
-
-bool check(int k) {
-    for (int i = 0; i < n; ++i) {
-        if (a[i] / k != b[i]) return false;
-    }
-    return true;
+void dfs(int u, int ll) {
+	if (u == n) {
+		flag = 1;
+		return;
+	}
+	for (int i = 1; i <= n; ++i) {
+		if (!st[i] && t[i] + d[i] >= ll) {
+		    st[i] = 1;
+		    dfs(u + 1, max(ll, t[i]) + l[i]);
+		    st[i] = 0;
+		}
+	}
 }
 
 int main() {
-    cin >> n;
-    for (int i = 0; i < n; ++i) {
-        cin >> a[i] >> b[i];
-        maxx = min(maxx, a[i] / b[i]);
-    }
-    int l = 1, r = maxx;
-    while (l < r) {
-        int mid = l + r >> 1;
-        if (check(mid)) r = mid;
-        else l = mid + 1;
-    }
-    cout << r << " ";
-    l = maxx, r = 1000000000;
-    while (l < r) {
-        LL mid = l + r + 1 >> 1;
-        if (check(mid)) l = mid;
-        else r = mid - 1;
-    }
-    cout << r << endl;
+	scanf("%d", &T);
+	while (T--) {
+		scanf("%d", &n);
+		flag = 0;
+		for (int i = 1; i <= n; ++i) scanf("%d %d %d", &t[i], &d[i], &l[i]);
+		dfs(0, 0);
+		if (flag) puts("YES");
+		else puts("NO");
+	}
 }
