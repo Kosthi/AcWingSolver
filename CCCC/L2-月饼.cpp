@@ -29,6 +29,7 @@ int main() {
     sort(s, s + n);
     for (int i = 0; i < n; ++i) {
         if (v[s[i].k] <= d) {
+            // 精度损失
             d -= v[s[i].k];
             ans += w[s[i].k];
         }
