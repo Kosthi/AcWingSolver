@@ -116,3 +116,44 @@ int main() {
     bfs(1);
     printf("%d", bfs(node));
 }
+
+// Dfs Ver
+#include <cstdio>
+#include <cstring>
+#include <iostream>
+
+using namespace std;
+
+const int N = 20010, M = 2 * N;
+
+int n, m;
+int h[N], e[M], ne[M], idx;
+int ans;
+
+void add(int a, int b) {
+    e[idx] = b, ne[idx] = h[a], h[a] = idx++;
+}
+
+int dfs(int u) {
+    int d1 = 0, d2 = 0;
+    for (int i = h[u]; ~i; i = ne[i]) {
+        int j = e[i];
+        int d = dfs(j);
+        if (d > d1) d2 = d1, d1 = d;
+        else if (d > d2) d2 = d;
+    }
+    ans = max(ans, d1 + d2);
+    return d1 + 1;
+}
+
+int main() {
+    memset(h, -1, sizeof h);
+    scanf("%d %d", &n, &m);
+    int f;
+    for (int i = 2; i <= n + m; ++i) {
+        scanf("%d", &f);
+        add(f, i);
+    }
+    dfs(1);
+    printf("%d", ans);
+}
