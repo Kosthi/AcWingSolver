@@ -1,3 +1,55 @@
+// dp bag
+#include <iostream>
+
+using namespace std;
+
+const int N = 310;
+
+string dp[N];
+int nums[] = {6,2,5,5,4,5,6,3,7,6};
+
+bool check(string& s) {
+    int st[10] = {0};
+    for (auto c : s) {
+        if (st[c - '0'] < 10) st[c - '0']++;
+        else return false;
+    }
+    return true;
+}
+
+bool judge(string& s1, string& s2) {
+    if (s1.size() == s2.size()) return s1 > s2;
+    return s1.size() > s2.size();
+}
+
+bool cmp(int a, int b) {
+    return a > b;
+}
+
+void conver(string& s) {
+    int n[s.size()];
+    for (int i = 0; i < s.size(); ++i) n[i] = s[i] - '0';
+    sort(n, n + s.size(), cmp);
+    for (int i = 0; i < s.size(); ++i) s[i] = n[i] + '0';
+}
+
+int main() {
+    for (int i = 1; i <= N - 1; ++i) {
+        string tp;
+        for (int t = 9; ~t; --t) {
+            if (i - nums[t] >= 0) {
+                string tmp = dp[i - nums[t]];
+                tmp.push_back(t + '0');
+                conver(tmp);
+                if (judge(tmp, tp) && check(tmp)) tp = tmp;
+            }
+        }
+        dp[i] = tp;
+    }
+    cout << dp[300];
+}
+
+// greedy
 #include <cstdio>
 #include <cstring>
 #include <iostream>
