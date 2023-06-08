@@ -1,3 +1,4 @@
+// 二分
 #include <cstdio>
 #include <vector>
 #include <string>
@@ -32,6 +33,60 @@ int main() {
             else l = mid + 1;
         }
         if (s2[r] - t + 1 >= k) ans += s2.size() - r;
+    }
+    printf("%lld", ans);
+}
+
+// 前缀和
+#include <cstdio>
+#include <cstring>
+#include <iostream>
+
+using namespace std;
+
+const int N = 500010;
+
+typedef long long LL;
+
+int k;
+string s;
+char a, c;
+int cnt, st[N];
+LL ans;
+
+int main() {
+    scanf("%d", &k);
+    cin >> s >> a >> c;
+    for (int i = 0; i < s.size(); ++i) {
+        if (s[i] == a) cnt++;
+        st[i] = cnt;
+        if (s[i] == c && i - k + 1 >= 0) ans += st[i - k + 1];
+    }
+    printf("%lld", ans);
+}
+
+#include <cstdio>
+#include <cstring>
+#include <iostream>
+
+using namespace std;
+
+const int N = 500010;
+
+typedef long long LL;
+
+int k;
+string s;
+char a, c;
+int cnt;
+LL ans;
+
+int main() {
+    scanf("%d", &k);
+    cin >> s >> a >> c;
+    for (int i = 0; i < s.size(); ++i) {
+        if (i - k + 1 >= 0 && s[i - k + 1] == a) cnt++;
+        if (s[i] == c) ans += cnt;
     }
     printf("%lld", ans);
 }
