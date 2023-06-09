@@ -37,6 +37,45 @@ int main() {
     printf("%lld", ans);
 }
 
+// fix bug scanf
+#include <cstdio>
+#include <cstring>
+
+using namespace std;
+
+const int N = 500010;
+
+typedef long long LL;
+
+int n, k;
+char s[N], a, c;
+int s1[N], s2[N];
+int cnt1, cnt2;
+LL ans;
+
+int main() {
+    scanf("%d", &k);
+    scanf("%s %c %c", s, &a, &c);
+    
+    n = strlen(s);
+    for (int i = 0; i < n; ++i) {
+        if (s[i] == a) s1[cnt1++] = i;
+        if (s[i] == c) s2[cnt2++] = i;
+    }
+    
+    for (int i = 0; i < cnt1; ++i) {
+        int t = s1[i];
+        int l = 0, r = cnt2 - 1;
+        while (l < r) {
+            int mid = l + r >> 1;
+            if (s2[mid] - t + 1 >= k) r = mid;
+            else l = mid + 1;
+        }
+        if (s2[r] - t + 1 >= k) ans += cnt2 - r;
+    }
+    printf("%lld", ans);
+}
+
 // 前缀和
 #include <cstdio>
 #include <cstring>
